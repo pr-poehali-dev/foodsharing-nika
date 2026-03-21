@@ -33,14 +33,16 @@
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
 
-    /* Nika brand colors */
-    --nika-green: #1a7a4a;
-    --nika-green-light: #2da866;
-    --nika-green-pale: #e8f5ee;
-    --nika-gold: #c8922a;
-    --nika-gold-light: #f0b94a;
-    --nika-dark: #0e2318;
-    --nika-text: #1c2e24;
+    /* Nika brand — синий/голубой */
+    --nika-blue: #1a7abf;
+    --nika-blue-deep: #0d5a96;
+    --nika-blue-sat: #1565c0;
+    --nika-blue-light: #4aaee0;
+    --nika-blue-pale: #e8f4fc;
+    --nika-cyan: #7dcfee;
+    --nika-dark: #071e34;
+    --nika-text: #0d2a45;
+    --nika-accent: #f5a623;
   }
 
   .dark {
@@ -84,7 +86,7 @@
   }
 }
 
-/* Slide animations */
+/* Animations */
 @keyframes slideUp {
   from {
     opacity: 0;
@@ -126,7 +128,7 @@
 @keyframes float {
   0%,
   100% {
-    transform: translateY(0px);
+    transform: translateY(0);
   }
   50% {
     transform: translateY(-10px);
@@ -140,13 +142,13 @@
     background-position: 200% center;
   }
 }
-@keyframes pulse-glow {
+@keyframes pulseGlow {
   0%,
   100% {
-    box-shadow: 0 0 20px rgba(200, 146, 42, 0.3);
+    box-shadow: 0 0 20px rgba(74, 174, 224, 0.3);
   }
   50% {
-    box-shadow: 0 0 40px rgba(200, 146, 42, 0.7);
+    box-shadow: 0 0 45px rgba(74, 174, 224, 0.65);
   }
 }
 
@@ -166,7 +168,7 @@
   animation: float 4s ease-in-out infinite;
 }
 .animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
+  animation: pulseGlow 2.2s ease-in-out infinite;
 }
 
 .delay-100 {
@@ -194,48 +196,39 @@
   animation-delay: 0.8s;
 }
 
-.opacity-0-init {
-  opacity: 0;
-}
-
 /* Gradient text */
-.gradient-text-gold {
-  background: linear-gradient(135deg, #c8922a 0%, #f0b94a 50%, #c8922a 100%);
+.gradient-text-blue {
+  background: linear-gradient(135deg, #4aaee0 0%, #7dcfee 50%, #1a7abf 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: shimmer 3s linear infinite;
+  animation: shimmer 4s linear infinite;
 }
-
-.gradient-text-green {
-  background: linear-gradient(135deg, #1a7a4a 0%, #2da866 50%, #1a7a4a 100%);
+.gradient-text-cyan {
+  background: linear-gradient(135deg, #7dcfee, #4aaee0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.gradient-text-white {
+  background: linear-gradient(135deg, #ffffff 0%, #c8e8f8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Noise texture overlay */
-.noise-overlay::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Slide navigation dots */
+/* Nav dots */
 .slide-nav-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.35);
   cursor: pointer;
   transition: all 0.3s ease;
 }
 .slide-nav-dot.active {
-  background: #f0b94a;
+  background: #7dcfee;
   width: 24px;
   border-radius: 4px;
 }
@@ -245,9 +238,9 @@
   width: 4px;
 }
 ::-webkit-scrollbar-track {
-  background: #0e2318;
+  background: #071e34;
 }
 ::-webkit-scrollbar-thumb {
-  background: #2da866;
+  background: #4aaee0;
   border-radius: 2px;
 }
