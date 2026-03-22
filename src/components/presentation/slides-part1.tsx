@@ -1,7 +1,8 @@
 import Icon from "@/components/ui/icon";
 import { G_BLUE, G_DARK, IMG_VOLUNTEERS, IMG_WAREHOUSE, type IconName } from "./presentation.config";
-import { Anim, NikaLogo, Slide, Tag } from "./presentation.shared";
+import { Anim, NikaLogo, ProjectStat, Slide, Tag } from "./presentation.shared";
 
+/* ── СЛАЙД 1: HERO ── */
 export function SlideHero() {
   return (
     <Slide id="hero" style={{ background: G_DARK }}>
@@ -19,11 +20,12 @@ export function SlideHero() {
       <div className="absolute bottom-0 left-0 w-full h-[3px]" style={{ background: "linear-gradient(90deg, transparent, #7dcfee, transparent)" }} />
 
       <div className="relative z-10 px-8 md:px-20 w-full max-w-6xl mx-auto">
-        <div className="animate-slide-up flex items-center gap-4 mb-10">
-          <NikaLogo size={72} className="drop-shadow-lg" />
+        <div className="animate-slide-up flex items-center gap-5 mb-10">
+          <NikaLogo size={96} className="drop-shadow-xl" />
           <div>
             <div className="text-white/50 text-xs uppercase tracking-widest">Благотворительный фонд</div>
-            <div className="text-white font-bold text-lg" style={{ fontFamily: "'Golos Text', sans-serif" }}>НИКА</div>
+            <div className="text-white font-black text-2xl" style={{ fontFamily: "'Golos Text', sans-serif" }}>НИКА</div>
+            <div className="text-white/40 text-[11px] mt-0.5">fondnika.ru</div>
           </div>
         </div>
 
@@ -35,17 +37,17 @@ export function SlideHero() {
 
         <p className="animate-slide-up delay-400 text-xl md:text-2xl mb-12"
           style={{ fontFamily: "'Cormorant', serif", color: "rgba(255,255,255,0.65)", fontStyle: "italic" }}>
-          Превращаем товарные излишки в помощь людям
+          Превращаем товарные излишки в реальную помощь людям
         </p>
 
-        <div className="animate-slide-up delay-600 flex flex-wrap gap-8 md:gap-14">
+        <div className="animate-slide-up delay-600 flex flex-wrap gap-10 md:gap-16">
           {[
-            { n: "1 000+", l: "семей ежемесячно" },
-            { n: "5",      l: "партнёров-компаний" },
-            { n: "0 ₽",   l: "стоимость вывоза" },
+            { n: "1 600+", l: "человек ежемесячно" },
+            { n: "120+",   l: "партнёров-компаний" },
+            { n: "6",      l: "социальных направлений" },
           ].map((s, i) => (
-            <div key={i}>
-              <div className="font-black text-3xl md:text-4xl gradient-text-cyan"
+            <div key={i} className="flex flex-col items-start">
+              <div className="font-black text-4xl md:text-5xl gradient-text-cyan"
                 style={{ fontFamily: "'Golos Text', sans-serif" }}>{s.n}</div>
               <div className="text-xs text-white/45 mt-1 uppercase tracking-wider">{s.l}</div>
             </div>
@@ -65,6 +67,7 @@ export function SlideHero() {
   );
 }
 
+/* ── СЛАЙД 2: ЧТО ТАКОЕ ФУДШЕРИНГ ── */
 export function SlideWhatIs() {
   return (
     <Slide id="whatIs" style={{ background: "#f0f8ff" }}>
@@ -133,6 +136,7 @@ export function SlideWhatIs() {
   );
 }
 
+/* ── СЛАЙД 3: КТО ПОЛУЧАЕТ ПОМОЩЬ ── */
 export function SlideWhoHelp() {
   return (
     <Slide id="whoHelp" style={{ background: "linear-gradient(145deg, #071e34 0%, #0a2e50 100%)" }}>
@@ -148,124 +152,90 @@ export function SlideWhoHelp() {
 
       <div className="relative z-10 w-full max-w-6xl mx-auto px-8 md:px-16 lg:pl-[calc(36%+2rem)]">
         <Anim>
-          <Tag light>Получатели помощи</Tag>
+          <Tag light>6 направлений помощи</Tag>
           <h2 className="text-4xl md:text-5xl font-black mb-8 leading-tight text-white"
             style={{ fontFamily: "'Golos Text', sans-serif" }}>
-            Ваши товары получают<br /><span className="gradient-text-cyan">те, кто ждёт</span>
+            Ваши товары получают<br /><span className="gradient-text-cyan">те, кто нуждается</span>
           </h2>
         </Anim>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
           {[
-            { icon: "Baby",            title: "Детские дома и интернаты" },
-            { icon: "Church",          title: "Храмы и приходы" },
-            { icon: "Users",           title: "Многодетные семьи" },
-            { icon: "HeartHandshake",  title: "Пенсионеры и одинокие" },
-            { icon: "Shield",          title: "Ветераны и участники СВО", sub: "совм. с фондом «Защитники Отечества»" },
-            { icon: "UtensilsCrossed", title: "Трапезная Святой Екатерины", sub: "ежедневное горячее питание" },
+            { icon: "Shield",       label: "Помощь бойцам СВО",      count: "30+ отправок" },
+            { icon: "Church",       label: "Помощь храмам",           count: "15+ приходов" },
+            { icon: "Baby",         label: "Детские дома",            count: "8+ учреждений" },
+            { icon: "UtensilsCrossed", label: "Трапезная св. Екатерины", count: "200+ порций/день" },
+            { icon: "Heart",        label: "Малоимущие семьи",        count: "800+ семей" },
+            { icon: "Users",        label: "Бездомные граждане",      count: "400+ человек" },
           ].map((item, i) => (
             <Anim key={i} delay={i * 80}>
-              <div className="p-4 rounded-2xl h-full transition-all duration-300 hover:scale-[1.03]"
-                style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(125,207,238,0.18)" }}>
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-3"
-                  style={{ background: "rgba(74,174,224,0.2)" }}>
-                  <Icon name={item.icon as IconName} size={20} className="text-cyan-300" />
-                </div>
-                <div className="font-bold text-sm text-white leading-snug">{item.title}</div>
-                {"sub" in item && item.sub && (
-                  <div className="text-xs mt-1" style={{ color: "rgba(255,255,255,0.4)" }}>{item.sub}</div>
-                )}
+              <div className="p-4 rounded-2xl h-full" style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)" }}>
+                <Icon name={item.icon as IconName} size={22} className="text-cyan-400 mb-2" />
+                <div className="text-white font-semibold text-sm leading-tight mb-1">{item.label}</div>
+                <div className="text-cyan-400/70 text-xs font-bold">{item.count}</div>
               </div>
             </Anim>
           ))}
         </div>
+
+        <Anim delay={500}>
+          <div className="flex flex-wrap gap-8">
+            <ProjectStat value="1 600+" label="человек ежемесячно" light />
+            <ProjectStat value="6"      label="направлений" light />
+            <ProjectStat value="5 лет"  label="работы фонда" light />
+          </div>
+        </Anim>
       </div>
     </Slide>
   );
 }
 
+/* ── СЛАЙД 4: ЧТО ПРИНИМАЕМ ── */
 export function SlideAccept() {
   return (
-    <Slide id="accept" style={{ background: "#f0f8ff" }}>
+    <Slide id="accept" style={{ background: "#f7faff" }}>
       <div className="absolute top-0 left-0 w-full h-[3px]" style={{ background: G_BLUE }} />
-      <div className="absolute inset-0 overflow-hidden">
-        <img src={IMG_WAREHOUSE} alt="" className="w-full h-full object-cover opacity-[0.07]" />
-      </div>
-      <div className="absolute right-[-1rem] top-1/2 -translate-y-1/2 text-[20rem] font-black leading-none select-none pointer-events-none"
-        style={{ color: "rgba(13,90,150,0.05)", fontFamily: "'Golos Text', sans-serif" }}>04</div>
 
       <div className="relative z-10 w-full max-w-6xl mx-auto px-8 md:px-16">
         <Anim>
-          <Tag>Принимаем</Tag>
-          <h2 className="text-5xl md:text-6xl font-black mb-8 leading-tight"
+          <Tag>Категории товаров</Tag>
+          <h2 className="text-4xl md:text-5xl font-black mb-10 leading-tight"
             style={{ fontFamily: "'Golos Text', sans-serif", color: "#071e34" }}>
-            Любые товары,<br />которые <span className="gradient-text-blue">можно использовать</span>
+            Что мы принимаем<br /><span className="gradient-text-blue">от партнёров</span>
           </h2>
         </Anim>
 
-        <div className="grid md:grid-cols-2 gap-5">
-          <Anim delay={200}>
-            <div className="p-6 rounded-3xl h-full" style={{ background: G_BLUE, color: "#fff" }}>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: "rgba(255,255,255,0.15)" }}>
-                  <Icon name="Apple" size={22} className="text-white" />
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          {[
+            { icon: "ShoppingBasket", title: "Продукты питания",   desc: "Крупы, консервы, выпечка, молочное" },
+            { icon: "Shirt",          title: "Одежда и обувь",      desc: "Новая или в хорошем состоянии" },
+            { icon: "Package2",       title: "Бытовая химия",       desc: "Чистящие, стиральные средства" },
+            { icon: "Pill",           title: "Медикаменты",         desc: "Не просроченные препараты" },
+            { icon: "BookOpen",       title: "Канцтовары / книги",  desc: "Для детских домов и школ" },
+            { icon: "Sofa",           title: "Мебель / техника",    desc: "Бытовые предметы в рабочем состоянии" },
+          ].map((item, i) => (
+            <Anim key={i} delay={i * 100}>
+              <div className="group p-5 rounded-2xl h-full flex flex-col gap-3 transition hover:shadow-lg"
+                style={{ background: "#fff", border: "1px solid #d4e8f8" }}>
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
+                  style={{ background: "linear-gradient(135deg, #e0f0fb, #c5e0f7)" }}>
+                  <Icon name={item.icon as IconName} size={22} style={{ color: "#1a7abf" }} />
                 </div>
-                <h3 className="text-xl font-black" style={{ fontFamily: "'Golos Text', sans-serif" }}>Продукты питания</h3>
-              </div>
-              <ul className="space-y-2.5">
-                {[
-                  ["ShoppingBasket", "Крупы, макароны, консервы"],
-                  ["Salad",          "Овощи и фрукты (свежие, некондиция)"],
-                  ["Croissant",      "Хлеб, молочная и мясная продукция"],
-                  ["GlassWater",     "Напитки и сладости"],
-                ].map(([ic, t], i) => (
-                  <li key={i} className="flex items-center gap-3 text-sm" style={{ color: "rgba(255,255,255,0.85)" }}>
-                    <Icon name={ic as IconName} size={15} className="text-cyan-200 flex-shrink-0" />
-                    {t}
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-5 px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-2"
-                style={{ background: "rgba(0,0,0,0.25)" }}>
-                <Icon name="CheckCircle2" size={14} className="text-cyan-300 flex-shrink-0" />
-                Принимаем товары с истекающим сроком, если пригодны
-              </div>
-            </div>
-          </Anim>
-
-          <Anim delay={400}>
-            <div className="p-6 rounded-3xl h-full" style={{ background: "linear-gradient(135deg, #0d5a96, #0a4070)", color: "#fff" }}>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: "rgba(255,255,255,0.15)" }}>
-                  <Icon name="Shirt" size={22} className="text-white" />
+                <div>
+                  <div className="font-bold text-sm mb-1" style={{ color: "#071e34" }}>{item.title}</div>
+                  <div className="text-xs leading-relaxed" style={{ color: "#5a7a95" }}>{item.desc}</div>
                 </div>
-                <h3 className="text-xl font-black" style={{ fontFamily: "'Golos Text', sans-serif" }}>Непродовольственные</h3>
               </div>
-              <ul className="space-y-2.5">
-                {[
-                  ["Droplets",    "Средства гигиены (подгузники, шампуни)"],
-                  ["Sparkles",    "Бытовая химия, одежда и обувь"],
-                  ["Gamepad2",    "Игрушки, книги, канцтовары, посуда"],
-                  ["Plug",        "Мелкая бытовая техника (рабочая)"],
-                  ["Thermometer", "Товары для СВО (термобельё, носки)"],
-                ].map(([ic, t], i) => (
-                  <li key={i} className="flex items-center gap-3 text-sm" style={{ color: "rgba(255,255,255,0.85)" }}>
-                    <Icon name={ic as IconName} size={15} className="text-blue-200 flex-shrink-0" />
-                    {t}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </Anim>
+            </Anim>
+          ))}
         </div>
 
-        <Anim delay={600} className="mt-4">
-          <div className="p-3.5 rounded-2xl flex items-center gap-3"
-            style={{ background: "#e0f0fb", border: "1px dashed #4aaee0" }}>
-            <Icon name="PackageCheck" size={20} style={{ color: "#1a7abf" }} className="flex-shrink-0" />
-            <span className="font-semibold text-sm" style={{ color: "#0d5a96" }}>
-              Забираем даже одну коробку — любое количество важно!
-            </span>
+        <Anim delay={700}>
+          <div className="mt-8 p-4 rounded-2xl flex items-center gap-4" style={{ background: G_DARK }}>
+            <Icon name="Truck" size={24} className="text-cyan-400 flex-shrink-0" />
+            <p className="text-white/80 text-sm">
+              Мы <strong className="text-white">сами приезжаем</strong> на склад и забираем товары — бесплатно, без бюрократии и лишних усилий с вашей стороны.
+            </p>
           </div>
         </Anim>
       </div>

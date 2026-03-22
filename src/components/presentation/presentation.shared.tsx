@@ -1,47 +1,96 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { LOGO } from "./presentation.config";
 
-export function useInView() {
+/* ─── useInView ─── */
+export function useInView(threshold = 0.15) {
   const ref = useRef<HTMLDivElement>(null);
-  const [inView, setInView] = useState(false);
+  const [visible, setVisible] = useState(false);
   useEffect(() => {
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setInView(true); }, { threshold: 0.15 });
-    if (ref.current) obs.observe(ref.current);
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold });
+    obs.observe(el);
     return () => obs.disconnect();
-  }, []);
-  return { ref, inView };
+  }, [threshold]);
+  return { ref, visible };
 }
 
-export function Anim({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
-  const { ref, inView } = useInView();
+/* ─── Anim ─── */
+interface AnimProps { children: ReactNode; delay?: number; className?: string; }
+export function Anim({ children, delay = 0, className = "" }: AnimProps) {
+  const { ref, visible } = useInView();
   return (
-    <div ref={ref} style={{ transitionDelay: `${delay}ms` }}
-      className={`${className} transition-all duration-700 ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+    <div ref={ref} className={className}
+      style={{ transition: `opacity 0.7s ${delay}ms, transform 0.7s ${delay}ms`, opacity: visible ? 1 : 0, transform: visible ? "none" : "translateY(28px)" }}>
       {children}
     </div>
   );
 }
 
-export function Slide({ id, children, style }: { id: string; children: React.ReactNode; style?: React.CSSProperties }) {
+/* ─── Slide ─── */
+interface SlideProps { id: string; children: ReactNode; style?: CSSProperties; className?: string; }
+export function Slide({ id, children, style, className = "" }: SlideProps) {
   return (
-    <section id={id} className="h-screen relative overflow-hidden flex items-center"
-      style={{ scrollSnapAlign: "start", ...style }}>
+    <section id={id} className={`relative flex items-center overflow-hidden ${className}`}
+      style={{ height: "100vh", scrollSnapAlign: "start", ...style }}>
+      {/* Лого-ватермарк на каждом слайде */}
+      <BrandWatermark />
+      {/* Лого-пин в правом верхнем углу */}
+      <SlideLogo />
       {children}
     </section>
   );
 }
 
-export function NikaLogo({ size = 64, className = "" }: { size?: number; className?: string }) {
+/* ─── Лого-ватермарк (большой, прозрачный, в углу) ─── */
+function BrandWatermark() {
+  return (
+    <div className="absolute bottom-6 left-8 z-10 pointer-events-none select-none flex items-center gap-2 opacity-20">
+      <img src={LOGO} alt="НИКА" className="h-10 object-contain" />
+      <span className="text-white text-xs font-bold tracking-widest uppercase">fondnika.ru</span>
+    </div>
+  );
+}
+
+/* ─── Лого в правом верхнем углу (видимое, читаемое) ─── */
+function SlideLogo() {
+  return (
+    <div className="absolute top-5 right-6 z-50 flex items-center gap-3 pointer-events-none select-none">
+      <div className="text-right hidden sm:block">
+        <div className="text-white/60 text-[9px] uppercase tracking-widest leading-tight">Благотворительный фонд</div>
+        <div className="text-white font-black text-sm tracking-wider leading-tight" style={{ fontFamily: "'Golos Text', sans-serif" }}>НИКА</div>
+      </div>
+      <img src={LOGO} alt="НИКА" className="h-12 w-12 object-contain drop-shadow-lg" style={{ filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.5))" }} />
+    </div>
+  );
+}
+
+/* ─── NikaLogo (большой, для Hero) ─── */
+interface NikaLogoProps { size?: number; className?: string; }
+export function NikaLogo({ size = 72, className = "" }: NikaLogoProps) {
   return <img src={LOGO} alt="Фонд НИКА" width={size} height={size} className={`object-contain ${className}`} />;
 }
 
-export function Tag({ children, light = false }: { children: React.ReactNode; light?: boolean }) {
+/* ─── Tag ─── */
+interface TagProps { children: ReactNode; light?: boolean; color?: string; }
+export function Tag({ children, light = false, color }: TagProps) {
+  const base = "inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full mb-5";
+  const style = color
+    ? { background: color, color: "#fff" }
+    : light
+      ? { background: "rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.8)", border: "1px solid rgba(255,255,255,0.25)" }
+      : { background: "#e0f0fb", color: "#0d5a96" };
+  return <div className={base} style={style}><span className="w-1.5 h-1.5 rounded-full bg-current opacity-70" />{children}</div>;
+}
+
+/* ─── ProjectStat (цифра + подпись) ─── */
+interface StatProps { value: string; label: string; light?: boolean; }
+export function ProjectStat({ value, label, light = false }: StatProps) {
   return (
-    <div className="inline-flex items-center gap-1.5 mb-5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-widest"
-      style={light
-        ? { background: "rgba(255,255,255,0.12)", color: "#7dcfee", border: "1px solid rgba(125,207,238,0.3)" }
-        : { background: "#e0f0fb", color: "#0d5a96" }}>
-      {children}
+    <div className="text-center px-3">
+      <div className={`font-black text-3xl md:text-4xl ${light ? "text-white" : "gradient-text-cyan"}`}
+        style={{ fontFamily: "'Golos Text', sans-serif" }}>{value}</div>
+      <div className={`text-[10px] uppercase tracking-wider mt-1 ${light ? "text-white/50" : "text-slate-500"}`}>{label}</div>
     </div>
   );
 }

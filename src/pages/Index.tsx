@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { slides, slideLabels } from "@/components/presentation/presentation.config";
 import { SlideHero, SlideWhatIs, SlideWhoHelp, SlideAccept } from "@/components/presentation/slides-part1";
-import { SlideHowWork, SlideBenefits, SlidePartners, SlideCta } from "@/components/presentation/slides-part2";
+import {
+  SlideSvo, SlideChurches, SlideOrphans, SlideTrapeza,
+  SlideHowWork, SlideBenefits, SlidePartners, SlideCta
+} from "@/components/presentation/slides-part2";
 
 export default function Index() {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -36,6 +39,10 @@ export default function Index() {
       <SlideWhatIs />
       <SlideWhoHelp />
       <SlideAccept />
+      <SlideSvo />
+      <SlideChurches />
+      <SlideOrphans />
+      <SlideTrapeza />
       <SlideHowWork />
       <SlideBenefits />
       <SlidePartners />
